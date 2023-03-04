@@ -13,26 +13,36 @@ const UserSchema = mongoose.Schema({
         type:String,
         required:true
     },
+    bio:{
+        type:String,
+    },
     skills:[{
-        type:String
+        type:String,
     }],
     github:{
-        type:String
+        type:String,
     },
     linkedIn:{
-        type:String
+        type:String,
     },
     resume:{
-        type:String
+        type:String,
     },
     phone:{
-        type:String
+        type:String,
     },
-    // applications:[
-    //     {
-    //         type:mongoose.Types.ObjectId
-    //     }
-    // ],
+    threads:[{
+        type:mongoose.Types.ObjectId,
+        ref:'Thread',
+        required:true
+    }],
+    applications:[
+        {
+            type:mongoose.Types.ObjectId,
+            ref:"Application",
+            required:true
+        }
+    ],
     // rejected:[{
     //     type:mongoose.Types.ObjectId
     // }],
@@ -41,4 +51,4 @@ const UserSchema = mongoose.Schema({
     // }]
 })
 
-module.exports = mongoose.model('user',UserSchema)
+module.exports = mongoose.model('User',UserSchema)

@@ -37,12 +37,12 @@ const Signup = async (req,res)=>{
 const UpdateProfile = async(req,res)=>{
     try{
         // const {skills,github,linkedIn, resume, phone, user_id} = req.body;
-        const {skills, github , linkedIn, resume,phone,user_id} = req.body;
+        const {bio, skills, github , linkedIn, resume,phone,user_id} = req.body;
         const existingUser = User.findOne({_id:user_id})
         if (!existingUser){
             res.status(404).json({error:'User not found'})
         }
-        await existingUser.updateOne({_id:user_id},{skills:skills,github:github,linkedIn:linkedIn, resume:resume, phone:phone});
+        await existingUser.updateOne({_id:user_id},{bio:bio,skills:skills,github:github,linkedIn:linkedIn, resume:resume, phone:phone});
         res.status(200).json({message:'User Updated'})
     } catch (err){
         console.log(err);
