@@ -19,7 +19,8 @@ const validateToken = (req,res,next)=>{
 router.post('/signup', UserControllers.Signup);
 router.post('/login', UserControllers.Login);
 router.post('/update', validateToken, UserControllers.UpdateProfile);
-router.get('/profile',UserControllers.ViewProfile)
+router.get('/profile',UserControllers.ViewProfile);
+router.get('/myprofile/:id',UserControllers.ViewMyProfile)
 
 
 

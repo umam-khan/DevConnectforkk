@@ -37,12 +37,12 @@ const Signup = async (req,res)=>{
 const UpdateProfile = async(req,res)=>{
     try{
         // const {skills,github,linkedIn, resume, phone, user_id} = req.body;
-        const {bio, skills, github , linkedIn, resume,phone,user_id} = req.body;
+        const {bio, skills, github , linkedIn, resume,phone,college,profile_picture,user_id} = req.body;
         const existingUser = User.findOne({_id:user_id})
         if (!existingUser){
             res.status(404).json({error:'User not found'})
         }
-        await existingUser.updateOne({_id:user_id},{bio:bio,skills:skills,github:github,linkedIn:linkedIn, resume:resume, phone:phone});
+        await existingUser.updateOne({_id:user_id},{bio:bio,skills:skills,github:github,linkedIn:linkedIn, resume:resume, phone:phone,college:college, profile_picture:profile_picture});
         res.status(200).json({message:'User Updated'})
     } catch (err){
         console.log(err);
@@ -75,7 +75,7 @@ const Login = async(req,res)=>{
 const ViewProfile = async(req,res) =>{
     try{
         const {id} = req.params;
-        const existingUser = await User.findById({_id:id}).select(['-password']);
+        const existingUser = await User.findById({_id:id}).select(['-password','-email','-phone']);
         if (!existingUser){
             res.status(404).json({error:"No user found"});
             return
@@ -85,8 +85,21 @@ const ViewProfile = async(req,res) =>{
         console.log(error);
         res.status(500).json({error:"An unkown error ocurred"})
     }
-
 }
 
+const ViewMyProfile = async(req,res)=>{
+    try{
+        const {id} = req.params;
+        const existingUser = await User.findById({_id:id}).select(['-password']);
+        if (!existingUser){
+            res.status(404).json({error:"No user found"});
+            return;
+        }
+        res.status(200).json({user:existingUser})
+    } catch(error){
+        console.log(error);
+        res.status(500).json({error:"An Unknown Error Occurred"})
+    }
+}
 
-module.exports = {Signup, Login, UpdateProfile,ViewProfile}
+module.exports = {Signup, Login, UpdateProfile,ViewProfile,ViewMyProfile}

@@ -26,9 +26,13 @@ const ApplicationSchema = mongoose.Schema({
         ref:"Thread",
         required:true
     },
-    applicants:{
+    applicant:{
         type:mongoose.Types.ObjectId,
         ref:"User",
+        required:true
+    },
+    status:{
+        type:String,
         required:true
     }
 })

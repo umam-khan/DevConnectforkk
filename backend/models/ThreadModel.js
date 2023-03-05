@@ -5,6 +5,10 @@ const ThreadSchema = mongoose.Schema({
         type:String,
         required:true
     },
+    status:{
+        type:String,
+        required:true
+    },
     field:{
         type:String,
         required:true
@@ -45,7 +49,7 @@ const ThreadSchema = mongoose.Schema({
         ref:"User",
         required:true
     },
-    applicants:[{
+    application_ids:[{
         type:mongoose.Types.ObjectId,
         ref:"Application",
         required:true

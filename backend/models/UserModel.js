@@ -31,12 +31,18 @@ const UserSchema = mongoose.Schema({
     phone:{
         type:String,
     },
+    college:{
+        type:String,
+    },
+    profile_picture:{
+        type:String
+    },
     threads:[{
         type:mongoose.Types.ObjectId,
         ref:'Thread',
         required:true
     }],
-    applications:[
+    application_ids:[
         {
             type:mongoose.Types.ObjectId,
             ref:"Application",

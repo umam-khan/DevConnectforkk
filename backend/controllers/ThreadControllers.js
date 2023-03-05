@@ -1,10 +1,11 @@
 const User = require('../models/UserModel')
 const Thread = require('../models/ThreadModel');
+const Application = require('../models/ApplicationModel')
 const { default: mongoose } = require('mongoose');
 
 const createThread = async(req,res)=>{
     try{
-        const {title,field,problem,description,positions,responsibilities,mode,location,prize,additionalDetail,user_id} = req.body;
+        const {title,status,field,problem,description,positions,responsibilities,mode,location,prize,additionalDetail,user_id} = req.body;
         console.log(positions)
         const existingUser = await User.findById({_id:user_id});
         if (!existingUser){
@@ -13,6 +14,7 @@ const createThread = async(req,res)=>{
         }
         const thread = new Thread({
             title:title,
+            status:status,
             field:field,
             problem:problem,
             description:description,
@@ -37,11 +39,89 @@ const createThread = async(req,res)=>{
         }
 
 
-    } catch (err){
-        console.log(err);
+    } catch (error){
+        console.log(error);
         res.status(500).json({error:"An Internal Error Occurred"})
     }
 
 }
 
-module.exports = {createThread};
+const viewThreads = async(req,res)=>{
+    try{
+        const threads = await Thread.find({}).select(['-problem','-description','-responsibilities','-prize','-additionalDetail','-location']);
+        res.status(200).json({threads:threads})
+    } catch (error){
+        console.log(error)
+        res.status(500).json({error:"An internal Server occurred"});
+    }
+}
+
+const viewThread = async(req,res)=>{
+    try{
+        const {id} = req.params;
+        const existingThread = await Thread.findById({_id:id});
+        if (!existingThread){
+            res.status(403).json({error:"Thread Not Found"});
+            return
+        }
+        res.status(200).json({thread:existingThread});
+
+
+    } catch (error){
+        console.log(error);
+        res.status(500).json({error:"An internal server occurred"})
+    }
+}
+
+const viewMyThreads = async(req,res)=>{
+    try{
+        const {id} = req.params;
+        const existingUser = await User.findById({_id:id}).populate([
+            {path:'threads', select:['-status','-description','-problem','-positions','-responsibilities','-mode','-prize','-additionalDetail']}
+        ])
+        if (!existingUser){
+            res.status(404).json({error:'user not found'})
+        }
+        res.status(200).json({threads:existingUser.threads});
+    } catch (error){
+        res.status(500).json({error:"An unkown server error occurred!"})
+        return;
+    }
+}
+
+const AcceptReject = async(req,res)=>{
+    try{
+        const {status,application_id} = req.body;
+        if (status!=="accepted" &&  status!=="rejected"){
+            res.status(409).json({error:"Please pass either 'accepted' or 'rejected' in the status field"})
+            return
+        }
+        const existingApplication = await Application.updateOne({_id:application_id},{status:status});
+        if (!existingApplication){
+            res.status(404).json({error:"Application ID not found"})
+            return;
+        }
+        res.status(200).json({message:"Application Status has been Updated"})
+    } catch (error){
+        console.log(error);
+        res.status(500).json({error:"Some Unkown Error Occurred"})
+    }
+}
+
+const closeThread = async(req,res)=>{
+    try{
+        const {id} = req.body;
+        const isThreadExists = await Thread.updateOne({_id:id},{status:'closed'});
+        if (!isThreadExists){
+            res.status(404).json({error:"Thread not found"});
+            return;
+        }
+        res.status(200).json({message:"This thread has been closed"})
+    } catch (error){
+        console.log(error);
+        res.status(500).json({error:"An Unkown Error Occurred"})
+    }
+}
+
+
+module.exports = {createThread, viewThreads,viewThread, AcceptReject, closeThread, viewMyThreads};
