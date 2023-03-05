@@ -6,7 +6,9 @@ const { populate } = require('../models/ApplicationModel');
 
 const Apply = async(req,res)=>{
     try{
-        const {position,why_work,best_project,best_project_link,experience,thread,applicant} = req.body;
+        const {position,why_work,best_project,best_project_link,experience,thread} = req.body;
+        const applicant = req.user.user_id;
+        console.log(applicant)
         const existingThread = await Thread.findById({_id:thread});
         if (!existingThread){
             res.status(404).json({error:"Thread not found"})
@@ -15,8 +17,6 @@ const Apply = async(req,res)=>{
         if (!existingUser){
             res.status(404).json({error:"User not found"})
         }
-
-        console.log(existingThread);
 
         const application = new Application({
             position:position,

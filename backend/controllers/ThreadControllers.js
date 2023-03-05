@@ -76,6 +76,9 @@ const viewThread = async(req,res)=>{
 const viewMyThreads = async(req,res)=>{
     try{
         const {id} = req.params;
+        if (req.user.user_id != id){
+            res.status(401).json({error:"You cant view some accounnt's threads"})
+        }
         const existingUser = await User.findById({_id:id}).populate([
             {path:'threads', select:['-status','-description','-problem','-positions','-responsibilities','-mode','-prize','-additionalDetail']}
         ])

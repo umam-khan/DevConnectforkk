@@ -36,8 +36,11 @@ const Signup = async (req,res)=>{
 }
 const UpdateProfile = async(req,res)=>{
     try{
-        // const {skills,github,linkedIn, resume, phone, user_id} = req.body;
         const {bio, skills, github , linkedIn, resume,phone,college,profile_picture,user_id} = req.body;
+        if (req.user.user_id !== user_id){
+            res.status(401).json({error:"You cannot Update someone else's profile"});
+            return;
+        }
         const existingUser = User.findOne({_id:user_id})
         if (!existingUser){
             res.status(404).json({error:'User not found'})
@@ -64,7 +67,6 @@ const Login = async(req,res)=>{
     bcrypt.compare(password,existingUser.password).then((result)=>{
         if (result){
             const token = jwt.sign({user_id},'secret_key')
-            console.log(token)
             res.status(200).json({message:"LOGIN SUCESS", token:token})
         } else {
             res.status(401).json({message:"Incorrect Password"})
@@ -88,8 +90,13 @@ const ViewProfile = async(req,res) =>{
 }
 
 const ViewMyProfile = async(req,res)=>{
+    const loggedInUser = req.user.user_id
     try{
         const {id} = req.params;
+        if (loggedInUser!== id){
+            res.status(401).json({error:"You cannot view somebody's personal profile"});
+            return;
+        }
         const existingUser = await User.findById({_id:id}).select(['-password']);
         if (!existingUser){
             res.status(404).json({error:"No user found"});
@@ -102,4 +109,30 @@ const ViewMyProfile = async(req,res)=>{
     }
 }
 
-module.exports = {Signup, Login, UpdateProfile,ViewProfile,ViewMyProfile}
+const exploreUsers = async(req,res)=>{
+    try{
+        const users = await User.aggregate(
+            [{$sample:{size:10}},{$project:{
+                "password":0,
+                "email":0,
+                "threads":0,
+                "application_ids":0,
+                "college":0,
+                "github":0,
+                "linkedIn":0,
+                "phone":0,
+                "resume":0
+            }}]
+        )
+        if (!users){
+            res.status(404).json({error:"No Users found"});
+            return;
+        }
+        res.status(200).json({users:users})
+    } catch (error){
+        console.log(error);
+        res.status(500).json({error:"An Unkown Server Error Occurred"})
+    }
+}
+
+module.exports = {Signup, Login, UpdateProfile,ViewProfile,ViewMyProfile,exploreUsers}
