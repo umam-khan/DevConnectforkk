@@ -1,9 +1,9 @@
-// UMAM START CODING HERE
+import Loginn from './Loginn';
 
 function App() {
   return (
     <div className="App">
-      <h1>No 6ixer behaviour! Happy Hacking </h1>
+      <Loginn />
     </div>
   );
 }
