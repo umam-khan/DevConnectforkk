@@ -14,8 +14,8 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react'
-import { Logo } from './Logo'
-import { PasswordField } from './PasswordField'
+import { Logo } from '../components/Logo'
+import { PasswordField } from '../components/PasswordField'
 import axios from 'axios';
 
 export const Login = () => {
@@ -37,17 +37,7 @@ export const Login = () => {
     signIn().then((response)=>{console.log(response.data)}).catch((err)=>{console.log(err.response.data)})
   }
   return (
-        <Box
-          w='100%' h='100%' bgGradient='linear(to-r, blue.200, purple.500)'
-            // py={{
-            //   base: '12',
-            //   md: '24',
-            // }}
-            // px={{
-            //   base: '0',
-            //   sm: '8',
-            // }}
-          >
+        <Box w='100%' h='100%' bgGradient='linear(to-r, blue.200, purple.500)' >
             <Stack w='100%' h='100%' spacing="8" py={{
               base: '12',
               md: '24',
@@ -55,7 +45,7 @@ export const Login = () => {
             px={{
               base: '0',
               sm: '8',
-            }} >
+            }} style={{display:'flex', justifyContent:'center', alignItems:'center'}} >
               <Box
               maxWidth="lg"
                 py={{

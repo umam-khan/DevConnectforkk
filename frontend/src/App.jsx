@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import './App.css'
 import { ChakraProvider } from '@chakra-ui/react'
-import Login from './components/Login'
+import Login from './Pages/Login'
 
 function App() {
   
