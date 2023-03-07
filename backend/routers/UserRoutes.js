@@ -4,7 +4,6 @@ const UserControllers = require('../controllers/UserControllers')
 const auth = require('../middlewares/Auth')
 
 
-
 router.post('/signup', UserControllers.Signup);
 router.post('/login', UserControllers.Login);
 router.post('/update',auth,UserControllers.UpdateProfile);

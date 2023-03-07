@@ -69,7 +69,7 @@ const Login = async(req,res)=>{
             const token = jwt.sign({user_id},'secret_key')
             res.status(200).json({message:"LOGIN SUCESS", token:token})
         } else {
-            res.status(401).json({message:"Incorrect Password"})
+            res.status(401).json({error:"Incorrect Password"})
         }
     })
 }

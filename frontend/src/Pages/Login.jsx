@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import React from "react";
 import {
+  Alert,
+  AlertIcon,
   Box,
   Button,
   Checkbox,
@@ -17,10 +19,24 @@ import {
 import { Logo } from '../components/Logo'
 import { PasswordField } from '../components/PasswordField'
 import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
 export const Login = () => {
-  const [email,setEmail] = useState();
-  const [password,setPassword] = useState();
+  const navigate = useNavigate();
+  const [email,setEmail] = useState('');
+  const [password,setPassword] = useState('');
+  const [loading,setLoading] = useState(false)
+  const token = localStorage.getItem('jwt')
+
+  useEffect(()=>{
+    if (token){
+      navigate('/home');
+    }
+  })
+
+  //FOR ERROR HANDLING
+  const [error_message,setErrorMessage] = useState('');
+  const [isError,setError] = useState(false)
 
   const signIn = async()=>{
     return await axios.post('https://asadparkar.tech/devconnectb/api/user/login',{
@@ -29,18 +45,25 @@ export const Login = () => {
     })
   }
   const handleClick = ()=>{
+    if (email === '' || password ===''){
+      setError(true);
+      setErrorMessage("Fill All Required Details");
+      return;
+    }
     const userDetails = ({
       email:email,
       password:password
     })
+    setLoading(true);
+
     signIn().then((response)=>{
-      console.log(response.data)
-      console.log(response.status)
+      localStorage.setItem("jwt",response.data.token)
+      setLoading(false)
+      navigate('/home')
     }).catch((error)=>{
-      let status = error.response.status;
-      let error_text = error.response.data
-      console.log(error_text)
-      console.log(status)
+      setErrorMessage(error.response.data.error)
+      setError(true);
+      setLoading(false)
     })
     
   }
@@ -115,7 +138,14 @@ export const Login = () => {
                     <FormControl>
                       <FormLabel htmlFor="password">Password</FormLabel>
                       <Input onChange={(e)=>{e.preventDefault();setPassword(e.target.value)}} id="password" type="password" />
-                    </FormControl>                  </Stack>
+                    </FormControl>
+                    </Stack>
+                    {isError &&
+                        <Alert status='error'>
+                          <AlertIcon />
+                          {error_message}
+                        </Alert>
+                    }
                   <HStack justify="space-between">
                     <Checkbox defaultChecked>Remember me</Checkbox>
                     <Button variant="link" colorScheme="purple" size="sm">
@@ -123,7 +153,7 @@ export const Login = () => {
                     </Button>
                   </HStack>
                   <Stack spacing="6">
-                    <Button variant="solid" colorScheme="purple" onClick={handleClick}>Sign in</Button>
+                    <Button isLoading={loading} variant="solid" colorScheme="purple" onClick={handleClick}>Sign in</Button>
                     <HStack>
                       <Text
                       fontSize="sm"
