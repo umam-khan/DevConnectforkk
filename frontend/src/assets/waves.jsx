@@ -1,14 +1,14 @@
 import React from "react";
 
-function Wave() {
+function Waves() {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" style={{position:'absolute', bottom:0, opacity:0.6}}>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" style={{position:'absolute', bottom:0}}>
       <path
-        fill="#f50"
-        d="M0 32h30c30 0 90 0 150 26.7 60 26.3 120 80.3 180 96 60 16.3 120-5.7 180-21.4 60-16.3 120-26.3 180-26.6 60 .3 120 10.3 180 10.6 60-.3 120-10.3 180-5.3 60 5 120 27 180 21.3 60-5.3 120-37.3 150-53.3l30-16v256H0z"
+        fill="#f3f4f5"
+        d="M0 64l34.3 42.7C68.6 149 137 235 206 266.7 274.3 299 343 277 411 240c69-37 138-91 206-122.7C685.7 85 754 75 823 96c68.4 21 137 75 206 69.3C1097.1 160 1166 96 1234 64c68.9-32 137-32 172-32h34v288H0z"
       ></path>
     </svg>
   );
 }
 
-export default Wave;
+export default Waves;
