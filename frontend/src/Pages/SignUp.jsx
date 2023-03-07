@@ -12,12 +12,18 @@ import {
   AvatarGroup,
   useBreakpointValue,
   Icon,
+  Alert,
+  AlertIcon,
+  FormControl,
+  FormLabel,
 } from '@chakra-ui/react';
+import { useState } from 'react';
 import Waves from '../assets/waves';
+import axios from 'axios';
 const avatars = [
   {
     name: 'Ryan Florence',
-    url: 'https://bit.ly/ryan-florence',
+    url: 'https://media.licdn.com/dms/image/C4D03AQFW-0cEV_ABPA/profile-displayphoto-shrink_800_800/0/1662436821732?e=1683763200&v=beta&t=eVJv4iuSMPUlGp9hIt8AUs45KK1UYj30oe4HTPlXItU',
   },
   {
     name: 'Segun Adebayo',
@@ -38,6 +44,34 @@ const avatars = [
 ];
 
 function SignUp() {
+  const [name,setName] = useState('');
+  const [email,setEmail] = useState('');
+  const [password,setPassword] = useState('');
+  const [loading,setLoading] = useState(false)
+  //FOR ERROR HANDLING
+  const [error_message,setErrorMessage] = useState('');
+  const [isError,setError] = useState(false)
+
+  const handleSubmit = ()=>{
+    if (!name || !email || !password){
+      setError(true);
+      setErrorMessage('Please fill all required fields!')
+      return
+    }
+    setLoading(true)
+    axios.post('https://asadparkar.tech/devconnectb/api/user/signup',{
+      name:name,
+      email:email,
+      password:password
+    }).then((response)=>{
+      setLoading(false)
+    }).catch((error)=>{
+      setError(true);
+      setErrorMessage(error.response.data.error);
+      setLoading(false);
+    })
+  }
+
   return (
     <Box position={'relative'} bgGradient='linear(to-r, blue.200, purple.500)'>
     <Waves />
@@ -117,8 +151,8 @@ function SignUp() {
             </Flex>
           </Stack>
         </Stack>
-        <Stack
-          bg={'gray.50'}
+        <Stack boxShadow={'xl'}
+          bg={'gray.200'}
           rounded={'xl'}
           p={{ base: 4, sm: 6, md: 8 }}
           spacing={{ base: 8 }}
@@ -143,8 +177,11 @@ function SignUp() {
           </Stack>
           <Box as={'form'} mt={10}>
             <Stack spacing={4}>
+            <FormControl isRequired>
+            <FormLabel>Username</FormLabel>
               <Input
                 placeholder="Firstname"
+                onChange={(e)=>{setName(e.target.value)}}
                 bg={'gray.100'}
                 border={0}
                 color={'gray.500'}
@@ -152,8 +189,14 @@ function SignUp() {
                   color: 'gray.500',
                 }}
               />
+            </FormControl>
+
+            <FormControl isRequired>
+            <FormLabel>Email</FormLabel>
+
               <Input
                 placeholder="firstname@lastname.io"
+                onChange={(e)=>{setEmail(e.target.value)}}
                 bg={'gray.100'}
                 border={0}
                 color={'gray.500'}
@@ -161,18 +204,34 @@ function SignUp() {
                   color: 'gray.500',
                 }}
               />
-              <Input
-                placeholder="+1 (___) __-___-___"
+            </FormControl>
+
+            <FormControl isRequired>
+            <FormLabel>Password</FormLabel>
+
+                           <Input
+                placeholder="password"
+                onChange={(e)=>{setPassword(e.target.value)}}
                 bg={'gray.100'}
                 border={0}
                 color={'gray.500'}
                 _placeholder={{
                   color: 'gray.500',
                 }}
-              />
+              /> 
+            </FormControl>
+
+                    {isError &&
+                        <Alert status='error'>
+                          <AlertIcon />
+                          {error_message}
+                        </Alert>
+                    }
             </Stack>
             <Button
               fontFamily={'heading'}
+              isLoading={loading}
+              onClick={handleSubmit}
               mt={8}
               w={'full'}
               bgGradient="linear(to-r, blue.400,purple.500)"
