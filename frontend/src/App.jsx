@@ -3,7 +3,9 @@ import './App.css'
 import { ChakraProvider } from '@chakra-ui/react'
 import Login from './Pages/Login';
 import Home from './Pages/Home';
-import {Routes, Route, Navigate } from 'react-router-dom'
+import {Routes, Route, Navigate } from 'react-router-dom';
+import SignUp from './Pages/SignUp';
+
 
 function App() {
   // const token = localStorage.getItem('jwt');
@@ -17,8 +19,9 @@ function App() {
     <>
     <Routes>
       <Route path='/' element={<Login />} />
-
       <Route path='/home' element={<Home />} />
+      <Route path='/register' element={<SignUp />} />
+
     </Routes>
     </>
   )

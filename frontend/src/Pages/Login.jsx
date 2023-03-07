@@ -23,8 +23,8 @@ import { useNavigate } from "react-router-dom";
 
 export const Login = () => {
   const navigate = useNavigate();
-  const [email,setEmail] = useState();
-  const [password,setPassword] = useState();
+  const [email,setEmail] = useState('');
+  const [password,setPassword] = useState('');
   const [loading,setLoading] = useState(false)
   const token = localStorage.getItem('jwt')
 
@@ -45,6 +45,11 @@ export const Login = () => {
     })
   }
   const handleClick = ()=>{
+    if (email === '' || password ===''){
+      setError(true);
+      setErrorMessage("Fill All Required Details");
+      return;
+    }
     const userDetails = ({
       email:email,
       password:password
