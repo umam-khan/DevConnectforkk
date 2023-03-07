@@ -22,7 +22,6 @@ export const Login = () => {
   const [email,setEmail] = useState();
   const [password,setPassword] = useState();
 
-  //HANDLES SIGN IN REQUEST
   const signIn = async()=>{
     return await axios.post('https://asadparkar.tech/devconnectb/api/user/login',{
       email:email,
@@ -34,7 +33,16 @@ export const Login = () => {
       email:email,
       password:password
     })
-    signIn().then((response)=>{console.log(response.data)}).catch((err)=>{console.log(err.response.data)})
+    signIn().then((response)=>{
+      console.log(response.data)
+      console.log(response.status)
+    }).catch((error)=>{
+      let status = error.response.status;
+      let error_text = error.response.data
+      console.log(error_text)
+      console.log(status)
+    })
+    
   }
   return (
         <Box w='100%' h='100%' bgGradient='linear(to-r, blue.200, purple.500)' >
