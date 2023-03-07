@@ -168,9 +168,6 @@ function SignUp() {
                   color: 'gray.500',
                 }}
               />
-              <Button fontFamily={'heading'} bg={'gray.200'} color={'gray.800'}>
-                Upload CV
-              </Button>
             </Stack>
             <Button
               fontFamily={'heading'}
