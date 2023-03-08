@@ -8,7 +8,7 @@ import SignUp from './Pages/SignUp';
 import Threads from './Pages/Threads';
 import Sidebar from './components/Sidebar';
 import Header from './components/Header';
-
+import NotFound from './components/NotFound.jsx';
 
 function App() {
 
@@ -21,6 +21,7 @@ function App() {
         <Route path='' element={<Threads />} />
       </Route>
       <Route path='register' element={<SignUp />} />
+      <Route path='*' element={<NotFound />}/>
     </Routes>
     </>
   )

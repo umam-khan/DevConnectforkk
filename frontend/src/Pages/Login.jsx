@@ -20,6 +20,7 @@ import { Logo } from '../components/Logo'
 import { PasswordField } from '../components/PasswordField'
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
+import {Link} from "react-router-dom";
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -121,9 +122,10 @@ export const Login = () => {
                   </Heading>
                   <HStack spacing="1" justify="center">
                     <Text color="muted">Don't have an account?</Text>
-                    <Button variant="link" colorScheme="purple">
+                    <Link to="/register"><Button variant="link" colorScheme="purple">
                       Sign up
                     </Button>
+                    </Link>
                   </HStack>
                 </Stack>
               </Stack>
