@@ -6,7 +6,7 @@ Dev Connect is a web based application which helps various developers and studen
 
 1) >cd frontend
 2) >npm install .
-3) >npm run dev !
+3) >npm run dev !!
 
 <h1>Running Backend </h1>
 
