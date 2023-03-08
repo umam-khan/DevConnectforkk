@@ -17,6 +17,7 @@ import {
     MenuDivider,
     useColorModeValue
     } from "@chakra-ui/react"
+import { useNavigate } from "react-router-dom"
     
     const IconButton = ({ children }) => {
     return (
@@ -34,18 +35,25 @@ import {
     }
     
     const Header = () => {
+        const navigate = useNavigate();
+        const handleClick = ()=>{
+            localStorage.removeItem('jwt');
+            navigate('/')
+        }
     return (
     <Box
     py="2"
-    boxShadow="sm"
+    boxShadow="lg"
     border="0 solid #e5e7eb"
     position="fixed"
     top="0"
-    bg={useColorModeValue("gray.100", "gray.700")}
+    // bg={useColorModeValue("gray.100", "gray.700")}
+    bg='#F5F7F7'
     width="100%"
     zIndex="1"
+    height='10%'
     >
-    <Container maxW="1280px" px={4} mx="auto">
+    <Container maxW="1580px" px={4} mx="auto">
     <HStack spacing={4}>
     <Image
     alt="dev logo"
@@ -126,7 +134,7 @@ import {
     <Text fontWeight="500">Settings</Text>
     </MenuItem>
     <MenuDivider />
-    <MenuItem>
+    <MenuItem onClick={handleClick}>
     <Text fontWeight="500">Sign Out</Text>
     </MenuItem>
     </MenuList>
