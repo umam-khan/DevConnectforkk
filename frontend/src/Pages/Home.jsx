@@ -12,7 +12,7 @@ const Home = () => {
         if (!token){
             navigate('/');
         }
-    },[])
+    },[token])
     const navigate = useNavigate();
     const handleClick = ()=>{
         localStorage.removeItem('jwt');
