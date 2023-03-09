@@ -1,6 +1,9 @@
-import { Avatar, Box, Button, Card, CardBody, CardFooter, CardHeader, Flex, Heading, IconButton, Image, Stack, Text } from '@chakra-ui/react'
+import { Avatar, Box, Button, Card, CardBody, CardFooter, CardHeader, Flex, Heading, IconButton, Image, Link, Stack, Text } from '@chakra-ui/react'
 import React from 'react'
-const Thread = ({title,status,positions,mode,author,applicants}) => {
+import { useNavigate } from 'react-router-dom'
+const Thread = ({title,status,positions,mode,author,applicants,id}) => {
+    const navigate = useNavigate();
+
   return (
 <Card
   direction={{ base: 'column', sm: 'row' }}
@@ -53,7 +56,7 @@ const Thread = ({title,status,positions,mode,author,applicants}) => {
     </CardBody>
 
     <CardFooter>
-      <Button variant='solid' bgColor={'#3B49DF'} color='white' _hover={{bg:'#3E54AC'}}>
+      <Button onClick={()=>{navigate(`thread/${id}`)}} variant='solid' bgColor={'#3B49DF'} color='white' _hover={{bg:'#3E54AC'}}>
         View Details
       </Button>
     </CardFooter>
