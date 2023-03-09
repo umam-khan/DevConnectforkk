@@ -31,7 +31,7 @@ const Threads = () => {
           <Skeleton height={'45px'} w='10%' marginTop={'50px'} />
         </div>}
 
-        {isLoading && <div style={{background:'#FFFFFF', padding:'30px', width:'90%', borderRadius:'20px', boxShadow:'5px 5px 15px gray', marginTop:'25px',height:'350px'}}>
+        {isLoading && <div style={{background:'#FFFFFF', padding:'30px', width:'90%', borderRadius:'20px', boxShadow:'5px 5px 15px gray', marginTop:'25px'}}>
           <Skeleton height={'20px'} w='90%' />
           <Skeleton height={'20px'} w='50%' marginTop={'10px'} />
           <Skeleton height={'100px'} w='20%' marginTop={'15px'} />
@@ -45,7 +45,7 @@ const Threads = () => {
         <Box display={'flex'} justifyContent='center' flexDirection={'column'}>
         {threads?.map((item)=>(
           <Box marginTop={'15px'}>
-            <Thread title={item.title} status={item.status} positions={item.positions} mode={item.mode} author='Asad Parkar' applicants={item.application_ids.length}  />
+            <Thread title={item.title} status={item.status} positions={item.positions} mode={item.mode} author='Asad Parkar' applicants={item.application_ids.length} id={item._id}  />
           </Box>
         ))}
 
