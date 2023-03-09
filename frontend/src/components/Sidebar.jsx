@@ -40,6 +40,8 @@ export default function Sidebar() {
             flexDir="column"
             justifyContent="space-between"
             bgColor={'#F5F7F7'}
+            fontFamily='Poppins'
+
         >
             <Flex
                 p="5%"
@@ -62,14 +64,14 @@ export default function Sidebar() {
                     }}
                 />
             }
-                <Box w={'100%'} onClick={()=>{setActive(0)}}>
+                <Box w={'100%'} onClick={()=>{setActive(0); navigate('/home')}}>
                     <NavItem navSize={navSize} icon={FiHome} title="Home"  active={active==0?true:false}/>
                 </Box>
 
-                <Box w={'100%'} onClick={()=>setActive(1)}>
+                <Box w={'100%'} onClick={()=>{setActive(1);navigate('/home/')}}>
                 <NavItem navSize={navSize} icon={FiCoffee} title="Filtered" active={active==1?true:false} />
                 </Box>
-                <Box w={'100%'} onClick={()=>setActive(2)}>
+                <Box w={'100%'} onClick={()=>{setActive(2);navigate('/home/explore')}}>
                 <NavItem navSize={navSize} icon={FiUser} title="Explore" active={active==2?true:false}  />
                 </Box>
                 <Box w={'100%'} onClick={()=>setActive(3)}>

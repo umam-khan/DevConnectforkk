@@ -1,6 +1,5 @@
 import { Avatar, Box, Button, Card, CardBody, CardFooter, CardHeader, Flex, Heading, IconButton, Image, Stack, Text } from '@chakra-ui/react'
 import React from 'react'
-
 const Thread = ({title,status,positions,mode,author,applicants}) => {
   return (
 <Card

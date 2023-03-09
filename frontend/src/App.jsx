@@ -9,6 +9,7 @@ import Threads from './Pages/Threads';
 import Sidebar from './components/Sidebar';
 import Header from './components/Header';
 import NotFound from './components/NotFound.jsx';
+import Explore from './Pages/Explore';
 
 function App() {
 
@@ -19,6 +20,8 @@ function App() {
       <Route path='/' element={<Login />} />
       <Route path='home' element={<Home />}>
         <Route path='' element={<Threads />} />
+        <Route path='explore' element={<Explore />} />
+
       </Route>
       <Route path='register' element={<SignUp />} />
       <Route path='*' element={<NotFound />}/>
