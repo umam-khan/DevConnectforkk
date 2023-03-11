@@ -48,7 +48,7 @@ const createThread = async(req,res)=>{
 
 const viewThreads = async(req,res)=>{
     try{
-        const threads = await Thread.find({}).select(['-problem','-description','-responsibilities','-prize','-additionalDetail','-location']);
+        const threads = await Thread.find({}).populate([{path:'user_id',select:['name','profile_picture']}]).select(['-problem','-description','-responsibilities','-prize','-additionalDetail','-location','-email']);
         res.status(200).json({threads:threads})
     } catch (error){
         console.log(error)
@@ -59,7 +59,7 @@ const viewThreads = async(req,res)=>{
 const viewThread = async(req,res)=>{
     try{
         const {id} = req.params;
-        const existingThread = await Thread.findById({_id:id});
+        const existingThread = await Thread.findById({_id:id}).populate('application_ids','applicant')
         if (!existingThread){
             res.status(403).json({error:"Thread Not Found"});
             return
