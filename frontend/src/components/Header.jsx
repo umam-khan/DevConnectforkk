@@ -52,22 +52,20 @@ import { useNavigate } from "react-router-dom"
     width="100%"
     zIndex="1"
     height='10%'
+    display={'flex'}
+    flexDirection='column'
+    alignItems={'center'}
+    justifyContent='center'
     >
     <Container maxW="1580px" px={4} mx="auto">
     <HStack spacing={4}>
     <Image
-    alt="dev logo"
-    w={"auto"}
-    h={12}
-    src="https://dev-to-uploads.s3.amazonaws.com/uploads/logos/resized_logo_UQww2soKuUsjaOGNB38o.png"
+    alt="DevConnect logo"
+    h={'90px'}
+    w='90px'
+    src="https://cdn.discordapp.com/attachments/835850564771643402/1083983817733324820/mini_project_2_logo.png"
     />
-    <Input
-    maxW="26rem"
-    placeholder="Search..."
-    borderColor={useColorModeValue("gray.300", "white")}
-    borderRadius="5px"
-    d={{ base: "none", md: "block" }}
-    />
+
     <Spacer />
     <HStack spacing={3}>
     <Button
