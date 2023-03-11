@@ -45,7 +45,7 @@ const Threads = () => {
         <Box display={'flex'} justifyContent='center' flexDirection={'column'}>
         {threads?.map((item)=>(
           <Box marginTop={'15px'}>
-            <Thread title={item.title} status={item.status} positions={item.positions} mode={item.mode} author='Asad Parkar' applicants={item.application_ids.length} id={item._id}  />
+            <Thread title={item.title} status={item.status} positions={item.positions} name={item.user_id?.name} mode={item.mode} author='Asad Parkar' applicants={item.application_ids.length} id={item._id}  />
           </Box>
         ))}
 

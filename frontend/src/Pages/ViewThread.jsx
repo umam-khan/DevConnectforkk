@@ -1,18 +1,30 @@
-import { Box, Button, Link, Text } from '@chakra-ui/react';
-import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { Box, Button, Image, Spinner, Text } from '@chakra-ui/react';
+import React, { useEffect, useRef, useState } from 'react'
+import { Link, Navigate, useNavigate, useParams } from 'react-router-dom'
 import { FaLaptop,FaBiking,FaMapMarker,FaTrophy,FaUserFriends,FaUserAlt} from "react-icons/fa";
 import axios from 'axios';
+import loading from '../assets/images/loading.png'
+import { decodeToken } from "react-jwt";
 
-const ViewThread = () => {
+const ViewThread = () => { 
+    const token = localStorage.getItem('jwt')
+    const decodedToken = decodeToken(token);
     const {id} = useParams();
+    const  navigate = useNavigate();
     const array = ['Web Developer','App Developer']
     const [index,setThread] = useState({});
+    const [isLoaded,setLoading] = useState(false);
+    const [isUserApplied,setApplied] = useState(false);
+    const application_ids = useRef();
     const getThread = async()=>{
         return await axios.get(`https://asadparkar.tech/devconnectb/api/thread/thread/${id}`)
     }
+    const getApplication = async(item)=>{
+        application_ids.current = item
+    }
     useEffect(()=>{
         getThread().then((response)=>{
+            getApplication(response.data.thread.application_ids)
             setThread({
                 title:response.data.thread.title,
                 field:response.data.thread.field,
@@ -26,13 +38,26 @@ const ViewThread = () => {
                 additionalDetail:response.data.thread.additionalDetail,
                 application_ids:response.data.thread.application_ids,
             })
+            application_ids.current.forEach(element => {
+            if (element.applicant === decodedToken.user_id){
+                setApplied(true)
+            }
+        });
+        setLoading(true)
+
         }).catch((error)=>{
-            console.log(error.response.data.error)
+            console.log(error)
+            navigate('*');
         })
     },[])
   return (
     <Box padding={'45px'} fontFamily='Poppins' >
+
         <Box bg='gray.100' padding={'10px'} borderRadius='15px'>
+            {!isLoaded && <Box display={'flex'} justifyContent='center' alignItems={'center'}>
+                <Spinner size='xl' />
+            </Box> }
+            {isLoaded && <Box>
             <Text fontSize={'3xl'} fontWeight='bold'>{index.title}</Text>
             <Text fontSize={'2xl'} color='gray.500' fontWeight={'medium'}>{index.field}</Text>
             <Text fontSize={'lg'} marginTop='20px' fontWeight={'medium'} color='#3B49DF'>Problem Statement:</Text>
@@ -84,9 +109,17 @@ const ViewThread = () => {
                     {index.application_ids?.length}+ Applicants
                 </Box>
             </Box>
-
-            <Button marginTop={'25px'} _hover={{bg:'#3E54AC'}} color={'white'} bg={'#3B49DF'}>Apply Now</Button>
+            <Link to={`/home/thread/apply/${id}`} state={{title:index.title,id:id,positions:index.positions}}>
+            {!isUserApplied && <Button marginTop={'25px'} _hover={{bg:'#3E54AC'}} color={'white'} bg={'#3B49DF'} onClick={()=>{
+            }}>Apply Now</Button> }
+            </Link>
+            {isUserApplied &&
+            <Button isDisabled marginTop={'25px'} _hover={{bg:'#3E54AC'}} color={'white'} bg={'#3B49DF'} onClick={()=>{
+            }}>Applied</Button>
+            }
+            </Box>}
         </Box>
+
     </Box>
   )
 }
