@@ -28,8 +28,9 @@ export const Login = () => {
   const [password,setPassword] = useState('');
   const [loading,setLoading] = useState(false)
   const token = localStorage.getItem('jwt')
-
+  const [isLoaded,setLoaded] = useState(false);
   useEffect(()=>{
+    setLoaded(true)
     if (token){
       navigate('/home');
     }
@@ -70,6 +71,7 @@ export const Login = () => {
   }
   return (
         <Box w='100%' h='100%' bgGradient='linear(to-r, blue.200, purple.500)' >
+         {isLoaded && 
             <Stack w='100%' h='100%' spacing="8" py={{
               base: '12',
               md: '24',
@@ -169,7 +171,7 @@ export const Login = () => {
                   </Stack>
                 </Stack>
               </Box>
-            </Stack>
+            </Stack> }
           </Box>
   )
 }

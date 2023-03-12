@@ -1,7 +1,7 @@
 import { Avatar, Box, Button, Card, CardBody, CardFooter, CardHeader, Flex, Heading, IconButton, Image, Link, Stack, Text } from '@chakra-ui/react'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-const Thread = ({title,status,positions,mode,author,applicants,id}) => {
+const Thread = ({title,status,positions,name,mode,author,applicants,id}) => {
     const navigate = useNavigate();
 
   return (
@@ -60,7 +60,7 @@ const Thread = ({title,status,positions,mode,author,applicants,id}) => {
         View Details
       </Button>
     </CardFooter>
-      <Text color={'gray.600'}>Posted by <span style={{fontWeight:'bold'}}>{author}</span></Text>
+      <Text color={'gray.600'}>Posted by <span style={{fontWeight:'bold'}}>{name}</span></Text>
 
   </Stack>
 </Card>

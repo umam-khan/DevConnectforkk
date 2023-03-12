@@ -11,7 +11,7 @@ import Header from './components/Header';
 import NotFound from './components/NotFound.jsx';
 import Explore from './Pages/Explore';
 import ViewThread from './Pages/ViewThread';
-
+import Apply from './Pages/Apply';
 function App() {
 
   return (
@@ -23,6 +23,7 @@ function App() {
         <Route path='' element={<Threads />} />
         <Route path='explore' element={<Explore />} />
         <Route path='thread/:id' element={<ViewThread />} />
+        <Route path='thread/apply/:id' element={<Apply />} />
       </Route>
       <Route path='register' element={<SignUp />} />
       <Route path='*' element={<NotFound />}/>
